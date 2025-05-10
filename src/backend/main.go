@@ -224,7 +224,7 @@ func main() {
 	}
 	r := mux.NewRouter()
 	r.HandleFunc("/search", searchHandler).Methods("GET")
-	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))//buat front end sementara
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./fe")))//buat front end sementara
 	handler := handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)
 	fmt.Printf("Server started on port %s\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, handler))
