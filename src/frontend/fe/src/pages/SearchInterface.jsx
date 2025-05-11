@@ -6,6 +6,9 @@ import ControlPanel from "../components/ControlPanel";
 import "../styles/SearchInterface.css";
 
 const SearchInterface = () => {
+  // result, //element yg dipilih bentuk string 
+  // (contoh: {
+  //"name": "Coconut", "recipes": [{ "elements": ["Palm", "Fruit"] },
   const [result, setResult] = useState(null);
   const [algorithm, setAlgorithm] = useState('BFS');
   const [recipeMode, setRecipeMode] = useState('one');
@@ -14,14 +17,23 @@ const SearchInterface = () => {
   const navigate = useNavigate();
 
   const handleResultClick = () => {
-    // if (!algorithm || !recipeMode || !maxParam || !result) {
-    //   return;
-    // }
+    if (!algorithm || !recipeMode || !maxParam || !result) {
+      return;
+    }
 
-    const calculatedResult = {///
+    const calculatedResult = {
+      ///dummy
+      nodes: 1,
+      searchTime: 90,
     };
 
-    navigate("/results");
+
+
+    navigate("/result", {
+      // state: {
+      //   calculatedResult
+      // },
+    });
 
 
 

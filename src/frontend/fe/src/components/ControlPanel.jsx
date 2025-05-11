@@ -6,10 +6,6 @@ const ControlPanel = ({
   maxParam,
   setMaxParam
 }) => {
-  // const handleResultClick = () => {
-  //   navigate("/results");
-  // };
-
   const handleAlgorithmChange = (e) => {
     setAlgorithm(e.target.value);
   };
@@ -22,21 +18,6 @@ const ControlPanel = ({
   const handleMaxParamChange = (e) => {
     setMaxParam(e.target.value);
   };
-
-  // function useAlgorithmAndRecipeListeners(handleAlgorithmChange, handleRecipeModeChange) {
-  //   useEffect(() => {
-  //     const algorithmSelector = document.getElementById('algorithm-selector');
-  //     const recipesSelector = document.getElementById('Recipes-selector');
-
-  //     if (algorithmSelector) algorithmSelector.addEventListener('change', handleAlgorithmChange);
-  //     if (recipesSelector) recipesSelector.addEventListener('change', handleRecipeModeChange);
-
-  //     return () => {
-  //       if (algorithmSelector) algorithmSelector.removeEventListener('change', handleAlgorithmChange);
-  //       if (recipesSelector) recipesSelector.removeEventListener('change', handleRecipeModeChange);
-  //     };
-  //   }, [handleAlgorithmChange, handleRecipeModeChange]);
-  // }
 
   return (
     <div className="control-panel">
