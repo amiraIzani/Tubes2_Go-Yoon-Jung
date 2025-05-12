@@ -34,7 +34,7 @@ const ControlPanel = ({
         <div className="control-panel__section">
           <div className="control-panel__label">How Many Recipes</div>
           <div className="control-panel__value">
-            <select id="Recipes-selector" class="selector" value={recipeMode} onChange={handleRecipeModeChange}>
+            <select id="Recipes-selector" className="selector" value={recipeMode} onChange={handleRecipeModeChange}>
               <option value="one">One Recipe</option>
               <option value="multiple">Multiple Recipes</option>
             </select>
