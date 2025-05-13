@@ -8,13 +8,10 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"sync"
-	"sync/atomic"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
-
 
 type Recipe struct {
 	Elements []string `json:"elements"`
@@ -35,45 +32,42 @@ type Tree struct {
 	Children []*Tree `json:"children,omitempty"`
 }
 
-var graph map[string]Node
+var (
+	graph        map[string]Node
+	baseElements = map[string]struct{}{"Fire": {}, "Earth": {}, "Air": {}, "Water": {}}
+)
 
 func loadRecipes(path string) {
-	data, _ := ioutil.ReadFile(path)
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
 	var raws []Raw
-	_ = json.Unmarshal(data, &raws)
-
+	err = json.Unmarshal(data, &raws)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
 	graph = make(map[string]Node, len(raws))
 	for _, item := range raws {
 		n := Node{Name: item.Name}
 		for _, r := range item.Recipes {
 			if len(r.Elements) == 2 {
-				n.Parents = append(n.Parents, [2]string{r.Elements[0], r.Elements[1]})
+				a, b := r.Elements[0], r.Elements[1]
+				dup := false
+				for _, p := range n.Parents {
+					if (p[0] == a && p[1] == b) || (p[0] == b && p[1] == a) {
+						dup = true
+						break
+					}
+				}
+				if !dup {
+					n.Parents = append(n.Parents, [2]string{a, b})
+				}
 			}
 		}
 		graph[item.Name] = n
 	}
-}
-
-func parallelExpand(current *Tree, parentPairs [][2]string, visited *int32) {
-	var wg sync.WaitGroup
-	var mu sync.Mutex
-
-	for _, pair := range parentPairs {
-		wg.Add(1)
-		go func(p [2]string) {
-			defer wg.Done()
-
-			left := &Tree{Name: p[0]}
-			right := &Tree{Name: p[1]}
-
-			mu.Lock()
-			current.Children = append(current.Children, left, right)
-			mu.Unlock()
-
-			atomic.AddInt32(visited, 2)
-		}(pair)
-	}
-	wg.Wait()
 }
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
@@ -82,52 +76,53 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	method := q.Get("method")
 	mode := q.Get("mode")
 	if target == "" || method == "" || mode == "" {
-		http.Error(w, "Parameter kurang", http.StatusBadRequest)
+		http.Error(w, "parameter tidak lengkap", http.StatusBadRequest)
 		return
 	}
 
 	limit := 1
 	if mode == "multiple" {
-		lv, err := strconv.Atoi(q.Get("limit"))
-		if err != nil || lv < 1 {
-			http.Error(w, "Limit tidak valid", http.StatusBadRequest)
+		if lv, err := strconv.Atoi(q.Get("limit")); err == nil && lv > 0 {
+			limit = lv
+		} else {
+			http.Error(w, "batas tidak valid", http.StatusBadRequest)
 			return
 		}
-		limit = lv
 	}
 
-	var recipes []*Tree
-	var elapsed int64
-	var nodesVisited int
+	var (
+		resp    interface{}
+		elapsed int64
+		nodes   int
+	)
 
 	switch mode {
 	case "one":
 		if method == "dfs" {
 			t, e, v := dfsSearch(target)
-			recipes = []*Tree{t}
-			elapsed, nodesVisited = e, v
+			resp, elapsed, nodes = t, e, v
 		} else {
 			t, e, v := bfsSearch(target)
-			recipes = []*Tree{t}
-			elapsed, nodesVisited = e, v
+			resp, elapsed, nodes = t, e, v
 		}
 	case "multiple":
-		recipes, elapsed, nodesVisited = multiSearch(target, method, limit)
+		ts, e, v := multiSearch(target, method, limit)
+		resp, elapsed, nodes = ts, e, v
 	default:
-		http.Error(w, "Mode tidak didukung", http.StatusBadRequest)
+		http.Error(w, "mode tidak didukung", http.StatusBadRequest)
 		return
 	}
 
-	resp := map[string]interface{}{ 
+	out := map[string]interface{}{
 		"method":        method,
 		"mode":          mode,
 		"limit":         limit,
 		"time_us":       elapsed,
-		"nodes_visited": nodesVisited,
-		"recipes":       recipes,
+		"nodes_visited": nodes,
+		"recipes":       resp,
 	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	json.NewEncoder(w).Encode(out)
 }
 
 func main() {
@@ -136,11 +131,9 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-
 	r := mux.NewRouter()
 	r.HandleFunc("/search", searchHandler).Methods("GET")
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./fe")))
-
 	handler := handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)
 	fmt.Printf("Server berjalan di port %s\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, handler))
