@@ -60,39 +60,55 @@ func bfsSearch(target string) (*Tree, int64, int) {
 func dfsSearch(target string) (*Tree, int64, int) {
 	start := time.Now()
 	root := &Tree{Name: target}
-	count := 0
+	opCount := 0
 
-	var dfs func(n *Tree, visited map[string]struct{})
-	dfs = func(n *Tree, visited map[string]struct{}) {
-		count++
-		if _, ok := baseElements[n.Name]; ok {
-			return
+	var dfs func(node *Tree, seen map[string]struct{}) bool
+	dfs = func(node *Tree, seen map[string]struct{}) bool {
+		opCount++
+
+		if _, ok := baseElements[node.Name]; ok {
+			node.Children = nil
+			return true
 		}
-		for _, pair := range graph[n.Name].Parents {
-			if _, seen := visited[pair[0]]; seen {
-				continue
-			}
-			if _, seen := visited[pair[1]]; seen {
-				continue
-			}
+
+		if _, ok := seen[node.Name]; ok {
+			return false
+		}
+
+		nextSeen := make(map[string]struct{}, len(seen)+1)
+		for key := range seen {
+			nextSeen[key] = struct{}{}
+		}
+		nextSeen[node.Name] = struct{}{}
+
+		recipe, exists := graph[node.Name]
+		if !exists || len(recipe.Parents) == 0 {
+			return false
+		}
+
+		for _, pair := range recipe.Parents {
 			left := &Tree{Name: pair[0]}
 			right := &Tree{Name: pair[1]}
-			n.Children = append(n.Children, left, right)
-			newVisited := make(map[string]struct{}, len(visited)+1)
-			for k := range visited {
-				newVisited[k] = struct{}{}
+			node.Children = []*Tree{left, right}
+
+			if dfs(left, nextSeen) && dfs(right, nextSeen) {
+				return true
 			}
-			newVisited[n.Name] = struct{}{}
 
-			dfs(left, newVisited)
-			dfs(right, newVisited)
-
-			break
+			node.Children = nil
 		}
+
+		return false
 	}
 
-	dfs(root, map[string]struct{}{target: {}})
-	return root, time.Since(start).Microseconds(), count
+	success := dfs(root, make(map[string]struct{}))
+	elapsed := time.Since(start).Microseconds()
+
+	if !success {
+		return nil, elapsed, opCount
+	}
+
+	return root, elapsed, opCount
 }
 
 func multiSearch(target, method string, limit int) ([]*Tree, int64, int) {
