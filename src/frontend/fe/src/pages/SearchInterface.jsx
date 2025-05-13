@@ -16,27 +16,41 @@ const SearchInterface = () => {
 
   const navigate = useNavigate();
 
-  const handleResultClick = () => {
+  const handleResultClick = async () => {
     if (!algorithm || !recipeMode || !maxParam || !result) {
       return;
     }
 
-    const calculatedResult = {
-      ///dummy
-      nodes: 1,
-      searchTime: 90,
-    };
+    try {
+      const queryParams = new URLSearchParams({
+        target: result.name,
+        method: algorithm.toLowerCase(),
+        mode: recipeMode,
+      });
 
+      if (recipeMode === "multiple") {
+        queryParams.append("limit", maxParam);
+      }
 
+      const response = await fetch(`http://localhost:8080/search?${queryParams.toString()}`);
 
-    navigate("/result", {
-      // state: {
-      //   calculatedResult
-      // },
-    });
+      if (!response.ok) throw new Error("Gagal mengambil data dari server");
 
+      const json = await response.json();
 
-
+      navigate("/result", {
+        state: {
+          calculatedResult: {
+            nodes_visited: json.nodes_visited,
+            time_us: json.time_us
+          }
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching from backend:", error);
+      alert("Terjadi kesalahan saat memproses permintaan.");
+    }
+    
   };
 
 
