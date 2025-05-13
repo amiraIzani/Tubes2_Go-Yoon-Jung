@@ -104,7 +104,7 @@ func multiSearch(target, method string, limit int) ([]*Tree, int64, int) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	nWorkers := runtime.GOMAXPROCS(0) - (1 + (runtime.GOMAXPROCS(0)-3)/(runtime.GOMAXPROCS(0)/2))
+	nWorkers := runtime.NumCPU() - (1 + (runtime.NumCPU()-3)/(runtime.NumCPU()/2))
 
 	worker := func() {
 		for {
