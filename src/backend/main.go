@@ -40,11 +40,13 @@ var (
 func loadRecipes(path string) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Fatalf("failed to read %s: %v", path, err)
+		log.Fatalf(err.Error())
 	}
 	var raws []Raw
-	if err := json.Unmarshal(data, &raws); err != nil {
-		log.Fatalf("invalid JSON: %v", err)
+	err = json.Unmarshal(data, &raws)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
 	}
 	graph = make(map[string]Node, len(raws))
 	for _, item := range raws {
@@ -74,7 +76,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	method := q.Get("method")
 	mode := q.Get("mode")
 	if target == "" || method == "" || mode == "" {
-		http.Error(w, "missing parameter", http.StatusBadRequest)
+		http.Error(w, "parameter tidak lengkap", http.StatusBadRequest)
 		return
 	}
 
@@ -83,7 +85,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		if lv, err := strconv.Atoi(q.Get("limit")); err == nil && lv > 0 {
 			limit = lv
 		} else {
-			http.Error(w, "invalid limit", http.StatusBadRequest)
+			http.Error(w, "batas tidak valid", http.StatusBadRequest)
 			return
 		}
 	}
@@ -107,7 +109,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		ts, e, v := multiSearch(target, method, limit)
 		resp, elapsed, nodes = ts, e, v
 	default:
-		http.Error(w, "unsupported mode", http.StatusBadRequest)
+		http.Error(w, "mode tidak didukung", http.StatusBadRequest)
 		return
 	}
 
@@ -133,6 +135,6 @@ func main() {
 	r.HandleFunc("/search", searchHandler).Methods("GET")
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./fe")))
 	handler := handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)
-	fmt.Printf("Server started on port %s\n", port)
+	fmt.Printf("Server berjalan di port %s\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, handler))
 }
