@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+.results-page {
+  background-image: radial-gradient(circle farthest-side at 50% 50%, #ffffff 0%, #3c73e0 100%);
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  gap: 80px;
+}
+
+.results-page__content {
+  width: 1000px;
+  height: 100%;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: url('../assets/Paper-Texture-4.jpg');
+  background-size: 100%;
+  display: flex;
+  padding: 30px;
+}
+
+.results-page__scroll {
+  overflow-y: auto;
+  scroll-padding: 30px;
+  font-family: "Roboto";
+  text-decoration: solid;
+  font-size: 22px;
+  line-height: 1.8;
+
+}
+
+
+
+.results-page__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 86px;
+  margin-left: 50px;
+  padding-top: 200px;
+}
+
+.search-stats {
+  width: 319px;
+  height: 412px;
+  border-radius: 50px;
+  background-color: #344cb7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom, #4567ff, #344cb7)
+}
+
+.search-stats__metric {
+  margin-top: 75px;
+}
+
+.search-stats__metric:last-child {
+  margin-top: 61px;
+}
+
+.search-stats__label,
+.search-stats__value {
+  color: #f5f5f5;
+  font-family: "Irish Grover", cursive;
+  font-size: 32px;
+  text-align: center;
+}
+
+.try-more-button {
+  color: rgb(0, 0, 0);
+  font-family: "Irish Grover", cursive;
+  font-size: 32px;
+  width: 319px;
+  height: 76px;
+  padding: 19px 18px;
+  border-radius: 50px;
+  background-color: #ffeb00;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom, #fff36d, #ffeb00);
+}
+
+@media (max-width: 991px) {
+  .results-page__content {
+    width: 100%;
+  }
+
+  .results-page__sidebar {
+    display: none;
+  }
+}

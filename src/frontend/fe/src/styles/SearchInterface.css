@@ -1,0 +1,282 @@
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
+
+
+.search-interface {
+  background-color: rgb(99, 87, 193);
+  background-image: radial-gradient(circle farthest-side at 50% 50%, #ffffff 0%, #3c73e0 100%);
+  display: flex;
+  padding: 210px 70px;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-interface__container {
+  width: 100%;
+  max-width: 1262px;
+}
+
+.search-interface__content {
+  gap: 20px;
+  display: flex;
+}
+
+.search-interface__left-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  line-height: normal;
+  width: 57%;
+  margin-left: 0;
+}
+
+.search-interface__right-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  line-height: normal;
+  width: 43%;
+  margin-left: 20px;
+}
+
+/* SearchBar */
+.search-bar__wrapper {
+  width: 100%;
+}
+
+.search-bar {
+  border-radius: 50px;
+  background-color: rgba(245, 245, 245, 1);
+  display: flex;
+  padding-left: 36px;
+  align-items: stretch;
+  gap: 20px;
+  overflow: hidden;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.search-bar__input {
+  color: rgb(0, 0, 0);
+  font-size: 32px;
+  font-family: "Irish Grover", cursive;
+  font-weight: 400;
+  margin: auto 0;
+}
+
+.search-bar__input input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 32px;
+  background: transparent;
+  font-family: "Irish Grover", cursive;
+  margin-left: 10px;
+}
+
+.search-bar__input input::placeholder {
+  color: rgba(201, 201, 201, 1);
+  font-style: italic;
+  font-family: "Irish Grover", cursive;
+  font-size: 32px;
+  margin-left: 10px;
+}
+
+.search-bar__button {
+  border-radius: 100px;
+  background-color: rgba(52, 76, 183, 1);
+  display: flex;
+  padding: 17px 32px;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(to bottom, #4567ff, #344cb7);
+  cursor: pointer;
+}
+
+.search-bar__icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 48px;
+}
+
+.search-bar__element {
+  border-radius: 50px;
+  background-color: rgba(0, 9, 87, 1);
+  display: flex;
+  margin-top: 38px;
+  width: 183px;
+  padding: 25px 37px;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  height: 183px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom, rgb(1, 17, 158), rgba(0, 9, 87, 1));
+}
+
+.search-bar__element-icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 80px;
+}
+
+.search-bar__element-text {
+  margin-top: 14px;
+  font-family: "Irish Grover", cursive;
+  font-size: 32px;
+  color: rgba(255, 255, 255, 1);
+  font-weight: 400;
+}
+
+/* ControlPanel  */
+.control-panel {
+  font-family: "Irish Grover", cursive;
+  font-size: 32px;
+  font-weight: 400;
+  flex-grow: 1;
+}
+
+.control-panel__settings {
+  border-radius: 50px;
+  background-color: rgba(52, 76, 183, 1);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom, #4567ff, #344cb7);
+  display: flex;
+  padding: 42px 30px;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: start;
+  color: rgba(245, 245, 245, 1);
+}
+
+.control-panel__section {
+  width: 100%;
+}
+
+.control-panel__section:not(:first-child) {
+  margin-top: 46px;
+}
+
+.control-panel__value {
+  margin-top: 16px;
+}
+
+.control-panel__input {
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 1);
+  align-self: stretch;
+  display: flex;
+  margin-top: 22px;
+  width: 100%;
+  flex-shrink: 0;
+  height: 70px;
+}
+
+.control-panel__input input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 32px;
+  background: transparent;
+  font-family: "Irish Grover", cursive;
+  margin-left: 10px;
+}
+
+
+.control-panel__input input::placeholder {
+  color: rgba(201, 201, 201, 1);
+  font-style: italic;
+  font-family: "Irish Grover", cursive;
+  font-size: 32px;
+  margin-left: 10px;
+}
+
+.selector {
+  font-family: "Irish Grover", cursive;
+  font-size: 32px;
+  font-weight: 400;
+  flex-grow: 1;
+  margin-bottom: 10px;
+}
+
+.control-panel__result {
+  border-radius: 50px;
+  background-color: rgba(255, 235, 0, 1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  cursor: pointer;
+  padding: 19px 70px;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 1);
+  white-space: nowrap;
+  text-align: center;
+  font-family: "Irish Grover", cursive;
+  font-size: 32px;
+  font-weight: 400;
+  flex-grow: 1;
+  margin-bottom: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom, #fff8a6, #ffeb00);
+}
+
+/* Media Queries */
+@media (max-width: 991px) {
+  .search-interface {
+    padding: 100px 20px;
+  }
+
+  .search-interface__container {
+    max-width: 100%;
+  }
+
+  .search-interface__content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .search-interface__left-column {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 40px;
+  }
+
+  .search-interface__right-column {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 40px;
+  }
+
+  .search-bar {
+    max-width: 100%;
+    padding-left: 20px;
+  }
+
+  .search-bar__button {
+    padding: 17px 20px;
+  }
+
+  .control-panel__settings {
+    max-width: 100%;
+    padding: 42px 20px;
+  }
+
+  .control-panel__section:not(:first-child) {
+    margin-top: 40px;
+  }
+
+  .control-panel__result {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    white-space: initial;
+  }
+}
