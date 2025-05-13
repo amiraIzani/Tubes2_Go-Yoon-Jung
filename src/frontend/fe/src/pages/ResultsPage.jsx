@@ -12,6 +12,7 @@ const ResultsPage = () => {
 
   const nodes = calculatedResult?.nodes_visited ?? 0;
   const searchTime = calculatedResult?.time_us ?? 0;
+  const recipeTree = calculatedResult?.recipes ?? [];
 
   const handleResetClick = () => {
     navigate("/");
@@ -20,7 +21,7 @@ const ResultsPage = () => {
   return (
     <div className="results-page">
       <div className="results-page__content">
-        <TreeVisualizer />
+        <TreeVisualizer tree={recipeTree} />
       </div>
       <div className="results-page__sidebar">
         <SearchStats nodes={nodes} searchTime={searchTime} />
