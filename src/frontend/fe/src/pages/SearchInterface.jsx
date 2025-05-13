@@ -16,8 +16,9 @@ const SearchInterface = () => {
 
   const navigate = useNavigate();
 
+
   const handleResultClick = async () => {
-    if (!algorithm || !recipeMode || !maxParam || !result) {
+    if (!algorithm || !recipeMode || !maxParam || maxParam < 1 || !result) {
       return;
     }
 
@@ -38,7 +39,7 @@ const SearchInterface = () => {
 
       const json = await response.json();
 
-      navigate("/result", {
+      navigate("/results", {
         state: {
           calculatedResult: {
             nodes_visited: json.nodes_visited,
