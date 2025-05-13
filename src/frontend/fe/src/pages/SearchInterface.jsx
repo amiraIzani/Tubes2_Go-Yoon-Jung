@@ -43,7 +43,8 @@ const SearchInterface = () => {
         state: {
           calculatedResult: {
             nodes_visited: json.nodes_visited,
-            time_us: json.time_us
+            time_us: json.time_us,
+            recipes: json.recipes
           }
         },
       });
