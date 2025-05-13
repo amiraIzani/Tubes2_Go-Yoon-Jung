@@ -1,10 +1,16 @@
 import React from "react";
 import SearchStats from "../components/SearchStats";
 import "../styles/ResultsPage.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const ResultsPage = ({ nodes = 0, searchTime = 0, onTryMore }) => {
+const ResultsPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { calculatedResult } = location.state || {};
+
+  const nodes = calculatedResult?.nodes_visited ?? 0;
+  const searchTime = calculatedResult?.time_us ?? 0;
 
   const handleResetClick = () => {
     navigate("/");
