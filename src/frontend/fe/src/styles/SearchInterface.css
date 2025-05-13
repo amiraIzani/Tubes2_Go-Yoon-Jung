@@ -2,7 +2,8 @@
 
 
 .search-interface {
-  background-color: rgba(87, 123, 193, 1);
+  background-color: rgb(99, 87, 193);
+  background-image: radial-gradient(circle farthest-side at 50% 50%, #ffffff 0%, #3c73e0 100%);
   display: flex;
   padding: 210px 70px;
   flex-direction: column;
@@ -54,6 +55,7 @@
   overflow: hidden;
   flex-wrap: wrap;
   justify-content: space-between;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 .search-bar__input {
@@ -92,6 +94,8 @@
   overflow: hidden;
   align-items: center;
   justify-content: center;
+  background-image: linear-gradient(to bottom, #4567ff, #344cb7);
+  cursor: pointer;
 }
 
 .search-bar__icon {
@@ -112,6 +116,8 @@
   overflow: hidden;
   align-items: center;
   height: 183px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom, rgb(1, 17, 158), rgba(0, 9, 87, 1));
 }
 
 .search-bar__element-icon {
@@ -140,7 +146,8 @@
 .control-panel__settings {
   border-radius: 50px;
   background-color: rgba(52, 76, 183, 1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom, #4567ff, #344cb7);
   display: flex;
   padding: 42px 30px;
   flex-direction: column;
@@ -216,6 +223,8 @@
   font-weight: 400;
   flex-grow: 1;
   margin-bottom: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom, #fff8a6, #ffeb00);
 }
 
 /* Media Queries */

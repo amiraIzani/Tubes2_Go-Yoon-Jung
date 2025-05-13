@@ -48,6 +48,7 @@ const ControlPanel = ({
               value={maxParam}
               onChange={handleMaxParamChange}
               placeholder="Enter Max Param"
+              min="1"
             />
           </div>
         </div>

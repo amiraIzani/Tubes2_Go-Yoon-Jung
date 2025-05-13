@@ -17,7 +17,7 @@ const SearchInterface = () => {
   const navigate = useNavigate();
 
   const handleResultClick = () => {
-    if (!algorithm || !recipeMode || !maxParam || !result) {
+    if (!algorithm || !recipeMode || !maxParam || maxParam < 1 || !result) {
       return;
     }
 
@@ -29,7 +29,7 @@ const SearchInterface = () => {
 
 
 
-    navigate("/result", {
+    navigate("/results", {
       // state: {
       //   calculatedResult
       // },
