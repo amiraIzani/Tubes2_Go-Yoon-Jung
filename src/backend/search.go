@@ -11,25 +11,31 @@ func bfsSearch(target string) (*Tree, int64, int) {
 	start := time.Now()
 	root := &Tree{Name: target}
 
-	type item struct {
+	type state struct {
 		node    *Tree
 		visited map[string]struct{}
 	}
-	queue := []item{{node: root, visited: map[string]struct{}{target: {}}}}
-	count := 0
+	queue := []state{{node: root, visited: map[string]struct{}{target: {}}}}
+	opCount := 0
 
 	for len(queue) > 0 {
 		curr := queue[0]
 		queue = queue[1:]
-		count++
+		opCount++
 		name := curr.node.Name
 
-		if _, ok := baseElements[name]; ok {
-			return root, time.Since(start).Microseconds(), count
+		if _, isBase := baseElements[name]; isBase {
+			continue
 		}
 
-		for _, pair := range graph[name].Parents {
+		recipe, exists := graph[name]
+		if !exists || len(recipe.Parents) == 0 {
+			continue
+		}
+
+		for _, pair := range recipe.Parents {
 			a, b := pair[0], pair[1]
+
 			if _, seen := curr.visited[a]; seen {
 				continue
 			}
@@ -39,7 +45,7 @@ func bfsSearch(target string) (*Tree, int64, int) {
 
 			left := &Tree{Name: a}
 			right := &Tree{Name: b}
-			curr.node.Children = append(curr.node.Children, left, right)
+			curr.node.Children = []*Tree{left, right}
 
 			newVisited := make(map[string]struct{}, len(curr.visited)+2)
 			for k := range curr.visited {
@@ -48,13 +54,15 @@ func bfsSearch(target string) (*Tree, int64, int) {
 			newVisited[a], newVisited[b] = struct{}{}, struct{}{}
 
 			queue = append(queue,
-				item{node: left, visited: newVisited},
-				item{node: right, visited: newVisited},
+				state{node: left, visited: newVisited},
+				state{node: right, visited: newVisited},
 			)
+
 			break
 		}
 	}
-	return root, time.Since(start).Microseconds(), count
+
+	return root, time.Since(start).Microseconds(), opCount
 }
 
 func dfsSearch(target string) (*Tree, int64, int) {
