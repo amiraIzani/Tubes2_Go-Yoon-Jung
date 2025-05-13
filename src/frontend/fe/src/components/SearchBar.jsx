@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import elements from "../assets/recipes.json";
+import images from '../assets/images.json';
 import search from '../assets/Search.png';
 
 const SearchBar = ({ result, setResult }) => {
@@ -11,6 +12,14 @@ const SearchBar = ({ result, setResult }) => {
       (el) => el.name.toLowerCase() === searchText.toLowerCase()
     );
     setResult(found || null);
+  };
+
+  const getImageLink = (elementName) => {
+    const imageObj = images.find(
+      (img) => img.name.toLowerCase() === elementName.toLowerCase()
+    );
+
+    return imageObj?.imageUrl;
   };
 
   return (
@@ -35,13 +44,13 @@ const SearchBar = ({ result, setResult }) => {
 
       {result && (
         <div className="search-bar__element">
-          <div className="search-bar__element-icon"></div>
+          <img
+            src={getImageLink(result.name)}
+            alt={result.name}
+            className="search-bar__element-icon"
+          />
           <div className="search-bar__element-text">{result.name}</div>
-          {result.recipes.map((r, index) => (
-            <div key={index} className="search-bar__recipe" >
-              {r.elements.join(" + ")}
-            </div>
-          ))}
+
         </div>
       )}
     </div>
