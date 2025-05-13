@@ -101,7 +101,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	var nodesVisited int
 
 	switch mode {
-	case "shortest":
+	case "one":
 		if method == "dfs" {
 			t, e, v := dfsSearch(target)
 			recipes = []*Tree{t}
